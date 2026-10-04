@@ -1,0 +1,10 @@
+target/
+node_modules/
+dist/
+__pycache__/
+*.py[cod]
+.idea/
+*.iml
+.env
+loadtest/results/
+scripts/ui-test/screenshots/

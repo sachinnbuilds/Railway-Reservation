@@ -1,0 +1,83 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: booking-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:5432/booking_db
+    username: ${DB_USER:railway}
+    password: ${DB_PASSWORD:railway}
+    hikari:
+      maximum-pool-size: 20
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      timeout: 300ms
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+    consumer:
+      group-id: booking-service
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        # Detect a dead consumer in ~10s (default 45s) so its partitions move to a survivor quickly.
+        session.timeout.ms: 10000
+        heartbeat.interval.ms: 3000
+    listener:
+      concurrency: 3
+
+booking:
+  hold-seconds: ${HOLD_SECONDS:180}
+  max-passengers: 6
+  payment:
+    connect-timeout: 1s
+    # Upper bound on how long a user waits for the payment gateway. Beyond this the outcome is
+    # "unknown" and the reconciler takes over - we never guess.
+    read-timeout: 3s
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      payment:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        slow-call-duration-threshold: 2s
+        slow-call-rate-threshold: 60
+        wait-duration-in-open-state: 15s
+        permitted-number-of-calls-in-half-open-state: 2
+        automatic-transition-from-open-to-half-open-enabled: true
+        record-exceptions:
+          - org.springframework.web.client.ResourceAccessException
+          - org.springframework.web.client.HttpServerErrorException
+  bulkhead:
+    instances:
+      payment:
+        # At most this many request threads may be waiting on the payment gateway at once, so a
+        # slow gateway cannot absorb every Tomcat thread and take booking/status reads down with it.
+        max-concurrent-calls: 20
+        max-wait-duration: 0
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+
+spring.cloud.loadbalancer.cache.ttl: 5s
+
+management:
+  endpoints.web.exposure.include: health,info,prometheus,circuitbreakers
+  health.redis.enabled: false

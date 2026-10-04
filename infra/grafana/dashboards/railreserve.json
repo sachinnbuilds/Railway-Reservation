@@ -1,0 +1,329 @@
+{
+ "title": "RailReserve - distributed booking",
+ "uid": "railreserve",
+ "schemaVersion": 39,
+ "refresh": "5s",
+ "time": {
+  "from": "now-15m",
+  "to": "now"
+ },
+ "panels": [
+  {
+   "type": "timeseries",
+   "title": "Booking requests / s by outcome (problem 1)",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "normal"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (outcome) (rate(booking_requests_total[30s]))",
+     "legendFormat": "{{outcome}}",
+     "refId": "A"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Gateway responses / s by route and status",
+   "gridPos": {
+    "x": 12,
+    "y": 0,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (routeId, httpStatusCode) (rate(spring_cloud_gateway_requests_seconds_count[30s]))",
+     "legendFormat": "{{routeId}} {{httpStatusCode}}",
+     "refId": "A"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Seat hold outcomes / s (problem 2)",
+   "gridPos": {
+    "x": 0,
+    "y": 8,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (outcome) (rate(seat_holds_total[30s]))",
+     "legendFormat": "{{outcome}}",
+     "refId": "A"
+    },
+    {
+     "expr": "sum(rate(seat_allocation_retries_total[30s]))",
+     "legendFormat": "allocation retries",
+     "refId": "B"
+    },
+    {
+     "expr": "sum(rate(seat_holds_expired_total[30s]))",
+     "legendFormat": "holds expired",
+     "refId": "C"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Kafka consumer lag (max per topic)",
+   "gridPos": {
+    "x": 12,
+    "y": 8,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "max by (topic) (kafka_consumer_fetch_manager_records_lag_max)",
+     "legendFormat": "{{topic}}",
+     "refId": "A"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Payment outcomes / s (problem 3)",
+   "gridPos": {
+    "x": 0,
+    "y": 16,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (outcome) (rate(payment_outcomes_total[30s]))",
+     "legendFormat": "{{outcome}}",
+     "refId": "A"
+    },
+    {
+     "expr": "sum by (result) (rate(reconciled_payments_total[30s]))",
+     "legendFormat": "reconciled {{result}}",
+     "refId": "B"
+    },
+    {
+     "expr": "sum(rate(refunds_completed_total[30s]))",
+     "legendFormat": "refunds",
+     "refId": "C"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Payment circuit breaker state per booking replica (problem 4)",
+   "gridPos": {
+    "x": 12,
+    "y": 16,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "max by (instance, state) (resilience4j_circuitbreaker_state{name=\"payment\"}) == 1",
+     "legendFormat": "{{instance}} {{state}}",
+     "refId": "A"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Average latency by gateway route (problem 5)",
+   "gridPos": {
+    "x": 0,
+    "y": 24,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "s",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (routeId) (rate(spring_cloud_gateway_requests_seconds_sum[30s])) / sum by (routeId) (rate(spring_cloud_gateway_requests_seconds_count[30s]))",
+     "legendFormat": "{{routeId}}",
+     "refId": "A"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Server errors (5xx) / s by service",
+   "gridPos": {
+    "x": 12,
+    "y": 24,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (job) (rate(http_server_requests_seconds_count{status=~\"5..\"}[30s]))",
+     "legendFormat": "{{job}}",
+     "refId": "A"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Requests / s handled per instance (load balancing)",
+   "gridPos": {
+    "x": 0,
+    "y": 32,
+    "w": 24,
+    "h": 8
+   },
+   "datasource": {
+    "type": "prometheus",
+    "uid": "prom"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "short",
+     "custom": {
+      "stacking": {
+       "mode": "none"
+      },
+      "fillOpacity": 15
+     }
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "expr": "sum by (job, instance) (rate(http_server_requests_seconds_count{uri!~\"/actuator.*\"}[30s]))",
+     "legendFormat": "{{job}} {{instance}}",
+     "refId": "A"
+    }
+   ]
+  }
+ ]
+}

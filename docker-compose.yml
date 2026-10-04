@@ -1,0 +1,206 @@
+name: rrs
+
+# Shared settings for every Spring Boot service.
+x-service: &service
+  restart: unless-stopped
+  environment: &service-env
+    EUREKA_URL: http://discovery-server:8761/eureka
+    DB_HOST: postgres
+    DB_USER: railway
+    DB_PASSWORD: railway
+    REDIS_HOST: redis
+    KAFKA_BOOTSTRAP: kafka:9092
+    JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me-0123456789abcdef}
+  depends_on: &service-deps
+    postgres: { condition: service_healthy }
+    redis: { condition: service_healthy }
+    kafka: { condition: service_healthy }
+    discovery-server: { condition: service_healthy }
+  deploy:
+    resources:
+      limits:
+        memory: 512m
+
+x-health: &health
+  interval: 5s
+  timeout: 5s
+  retries: 40
+  start_period: 30s
+
+services:
+  # ------------------------------------------------------------------ infrastructure
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: railway
+      POSTGRES_PASSWORD: railway
+      POSTGRES_DB: railway
+    command: ["postgres", "-c", "max_connections=300", "-c", "shared_buffers=256MB"]
+    volumes:
+      - ./infra/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U railway -d notification_db"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  redis:
+    image: redis:7
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+
+  kafka:
+    image: confluentinc/cp-kafka:7.7.1
+    hostname: kafka
+    environment:
+      CLUSTER_ID: UlJTLVJhaWx3YXlSZXNlcnZhdA
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,CONTROLLER://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_HEAP_OPTS: -Xmx512m -Xms256m
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server kafka:9092 --list >/dev/null"]
+      interval: 5s
+      timeout: 10s
+      retries: 30
+      start_period: 15s
+
+  # ------------------------------------------------------------------ platform
+  discovery-server:
+    image: rrs/discovery-server
+    build: { context: ., args: { MODULE: discovery-server } }
+    restart: unless-stopped
+    ports: ["${EUREKA_PORT:-9761}:8761"]
+    deploy: { resources: { limits: { memory: 384m } } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8761/actuator/health >/dev/null"]
+      <<: *health
+
+  api-gateway:
+    <<: *service
+    image: rrs/api-gateway
+    build: { context: ., args: { MODULE: api-gateway } }
+    ports: ["${GATEWAY_PORT:-9080}:8080"]
+    environment:
+      <<: *service-env
+      DISCOVERY_URI: http://discovery-server:8761
+      RATELIMIT_BOOKING_RATE: ${RATELIMIT_BOOKING_RATE:-2}
+      RATELIMIT_BOOKING_BURST: ${RATELIMIT_BOOKING_BURST:-5}
+      RATELIMIT_SEARCH_RATE: ${RATELIMIT_SEARCH_RATE:-50}
+      RATELIMIT_SEARCH_BURST: ${RATELIMIT_SEARCH_BURST:-100}
+    depends_on:
+      redis: { condition: service_healthy }
+      discovery-server: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8080/actuator/health >/dev/null"]
+      <<: *health
+
+  # ------------------------------------------------------------------ business services
+  user-service:
+    <<: *service
+    image: rrs/user-service
+    build: { context: ., args: { MODULE: user-service } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8081/actuator/health >/dev/null"]
+      <<: *health
+
+  search-service:
+    <<: *service
+    image: rrs/search-service
+    build: { context: ., args: { MODULE: search-service } }
+    deploy:
+      replicas: ${SEARCH_REPLICAS:-2}
+      resources: { limits: { memory: 512m } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8082/actuator/health >/dev/null"]
+      <<: *health
+
+  inventory-service:
+    <<: *service
+    image: rrs/inventory-service
+    build: { context: ., args: { MODULE: inventory-service } }
+    environment:
+      <<: *service-env
+      INVENTORY_SKIP_LOCKED: ${INVENTORY_SKIP_LOCKED:-true}
+    deploy:
+      replicas: ${INVENTORY_REPLICAS:-2}
+      resources: { limits: { memory: 512m } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8083/actuator/health >/dev/null"]
+      <<: *health
+
+  booking-service:
+    <<: *service
+    image: rrs/booking-service
+    build: { context: ., args: { MODULE: booking-service } }
+    environment:
+      <<: *service-env
+      HOLD_SECONDS: ${HOLD_SECONDS:-180}
+    deploy:
+      replicas: ${BOOKING_REPLICAS:-2}
+      resources: { limits: { memory: 512m } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8084/actuator/health >/dev/null"]
+      <<: *health
+
+  payment-service:
+    <<: *service
+    image: rrs/payment-service
+    build: { context: ., args: { MODULE: payment-service } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8085/actuator/health >/dev/null"]
+      <<: *health
+
+  notification-service:
+    <<: *service
+    image: rrs/notification-service
+    build: { context: ., args: { MODULE: notification-service } }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:8086/actuator/health >/dev/null"]
+      <<: *health
+
+  # ------------------------------------------------------------------ web UI
+  frontend:
+    image: rrs/frontend
+    build: { context: ./frontend }
+    restart: unless-stopped
+    ports: ["${UI_PORT:-3000}:80"]
+    depends_on:
+      api-gateway: { condition: service_healthy }
+
+  # ------------------------------------------------------------------ observability (optional)
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    profiles: ["observability"]
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports: ["${PROMETHEUS_PORT:-9090}:9090"]
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    profiles: ["observability"]
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+    volumes:
+      - ./infra/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./infra/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports: ["${GRAFANA_PORT:-3001}:3000"]
+
+volumes:
+  pgdata:

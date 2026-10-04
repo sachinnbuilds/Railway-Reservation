@@ -1,0 +1,19 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discovery-server
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    # Laptop-sized fleet: notice dead instances in seconds, not minutes (defaults suit large fleets).
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 5000
+    use-read-only-response-cache: false
+
+management:
+  endpoints.web.exposure.include: health,info

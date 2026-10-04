@@ -1,0 +1,47 @@
+global:
+  scrape_interval: 5s
+
+# Docker DNS returns every replica of a compose service, so scaled services are scraped per instance.
+scrape_configs:
+  - job_name: api-gateway
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [api-gateway]
+        type: A
+        port: 8080
+  - job_name: user-service
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [user-service]
+        type: A
+        port: 8081
+  - job_name: search-service
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [search-service]
+        type: A
+        port: 8082
+  - job_name: inventory-service
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [inventory-service]
+        type: A
+        port: 8083
+  - job_name: booking-service
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [booking-service]
+        type: A
+        port: 8084
+  - job_name: payment-service
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [payment-service]
+        type: A
+        port: 8085
+  - job_name: notification-service
+    metrics_path: /actuator/prometheus
+    dns_sd_configs:
+      - names: [notification-service]
+        type: A
+        port: 8086

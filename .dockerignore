@@ -1,0 +1,7 @@
+**/target
+frontend
+.git
+.idea
+*.iml
+loadtest
+docs

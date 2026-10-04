@@ -1,0 +1,166 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      timeout: 500ms
+  cloud:
+    gateway:
+      default-filters:
+        - name: Retry
+          args:
+            # Retry only if the connection never reached a service (dead instance still in the
+            # registry). Such a request never executed, so retrying is safe even for POSTs.
+            retries: 2
+            methods: GET,POST,PUT,DELETE
+            series: ""
+            statuses: ""
+            exceptions: java.net.ConnectException,java.net.UnknownHostException
+      routes:
+        # ---------- public: auth ----------
+        - id: user-auth
+          uri: lb://user-service
+          predicates:
+            - Path=/api/auth/**,/api/users/**
+          filters:
+            - RewritePath=/api/(?<rest>.*), /${rest}
+            - name: CircuitBreaker
+              args: { name: user, fallbackUri: forward:/fallback/user-service }
+
+        # ---------- public: read path (high volume, cacheable, AP) ----------
+        - id: search
+          uri: lb://search-service
+          predicates:
+            - Path=/api/search/**,/api/stations/**,/api/trains/**,/api/search,/api/stations
+          filters:
+            - RewritePath=/api/(?<rest>.*), /${rest}
+            - name: RequestRateLimiter
+              args:
+                rate-limiter: "#{@searchRateLimiter}"
+                key-resolver: "#{@userOrIpKeyResolver}"
+            - name: CircuitBreaker
+              args: { name: search, fallbackUri: forward:/fallback/search-service }
+
+        # ---------- booking writes (low volume, strict, CP) - own, much smaller bucket ----------
+        - id: booking-write
+          uri: lb://booking-service
+          predicates:
+            - Path=/api/bookings,/api/bookings/**
+            - Method=POST,DELETE
+          filters:
+            - RewritePath=/api/(?<rest>.*), /${rest}
+            - name: RequestRateLimiter
+              args:
+                rate-limiter: "#{@bookingRateLimiter}"
+                key-resolver: "#{@userOrIpKeyResolver}"
+            - name: CircuitBreaker
+              args: { name: booking, fallbackUri: forward:/fallback/booking-service }
+
+        - id: booking-read
+          uri: lb://booking-service
+          predicates:
+            - Path=/api/bookings,/api/bookings/**
+          filters:
+            - RewritePath=/api/(?<rest>.*), /${rest}
+            - name: RequestRateLimiter
+              args:
+                rate-limiter: "#{@searchRateLimiter}"
+                key-resolver: "#{@userOrIpKeyResolver}"
+            - name: CircuitBreaker
+              args: { name: booking, fallbackUri: forward:/fallback/booking-service }
+
+        - id: notifications
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**,/api/notifications
+          filters:
+            - RewritePath=/api/(?<rest>.*), /${rest}
+            - name: CircuitBreaker
+              args: { name: notification, fallbackUri: forward:/fallback/notification-service }
+
+        # ---------- ops / demo control panel ----------
+        - id: admin-payment
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/admin/payment/**
+          filters:
+            - RewritePath=/api/admin/payment/(?<rest>.*), /admin/${rest}
+        - id: admin-inventory
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/admin/inventory/**
+          filters:
+            - RewritePath=/api/admin/inventory/(?<rest>.*), /admin/${rest}
+        - id: admin-booking
+          uri: lb://booking-service
+          predicates:
+            - Path=/api/admin/booking/**
+          filters:
+            - RewritePath=/api/admin/booking/(?<rest>.*), /admin/${rest}
+        - id: admin-registry
+          uri: ${DISCOVERY_URI:http://localhost:8761}
+          predicates:
+            - Path=/api/admin/registry
+          filters:
+            - SetPath=/eureka/apps
+            - SetRequestHeader=Accept, application/json
+        - id: admin-search
+          uri: lb://search-service
+          predicates:
+            - Path=/api/admin/search/**
+          filters:
+            - RewritePath=/api/admin/search/(?<rest>.*), /admin/${rest}
+    loadbalancer:
+      cache:
+        ttl: 5s
+
+jwt:
+  secret: ${JWT_SECRET:dev-only-secret-change-me-0123456789abcdef}
+
+ratelimit:
+  search:
+    rate: ${RATELIMIT_SEARCH_RATE:50}
+    burst: ${RATELIMIT_SEARCH_BURST:100}
+  booking:
+    rate: ${RATELIMIT_BOOKING_RATE:2}
+    burst: ${RATELIMIT_BOOKING_BURST:5}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 20
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 50
+        slow-call-duration-threshold: 4s
+        slow-call-rate-threshold: 80
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 5s
+    instances:
+      booking:
+        # POST /bookings/{id}/pay waits on the payment gateway (bounded at ~3s inside booking-service).
+        timeout-duration: 8s
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
+    registry-fetch-interval-seconds: 5
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+
+management:
+  endpoints.web.exposure.include: health,info,prometheus,circuitbreakers,gateway
+  endpoint.health.show-details: always
+  health.redis.enabled: false
