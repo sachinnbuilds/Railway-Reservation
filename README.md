@@ -57,35 +57,7 @@ Every service has its own database (shown as six databases in one Postgres conta
 
 ### Booking saga
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant U as User
-    participant B as booking-service
-    participant K as Kafka
-    participant I as inventory-service
-    participant P as payment-service
-    U->>B: POST /bookings (Idempotency-Key)
-    B->>B: Redis fast-reject (avail − inflight ≥ n ?)
-    B->>B: tx { booking PENDING + outbox HoldSeats }
-    B-->>U: 202 Accepted {id, PNR}
-    B->>K: HoldSeats (key = runId)
-    K->>I: HoldSeats (in order, per train)
-    I->>I: tx { SKIP LOCKED pick + mark HELD (lease) + outbox SeatsHeld }
-    I->>K: SeatsHeld
-    K->>B: SeatsHeld → SEATS_HELD
-    U->>B: POST /bookings/{id}/pay
-    B->>P: charge (timeout 3 s, circuit breaker, bulkhead)
-    alt succeeded
-        B->>K: ConfirmSeats → … → CONFIRMED
-    else declined
-        B->>K: ReleaseSeats → PAYMENT_FAILED
-    else timed out (money may have moved)
-        B->>B: PAYMENT_UNKNOWN; reconciler polls P → CONFIRMING or PAYMENT_FAILED
-    else not attempted (breaker open / bank down)
-        B-->>U: 503, "no money taken, seats still held"
-    end
-```
+<img width="1366" height="900" alt="booking-confirmed" src="https://github.com/user-attachments/assets/49a11b8e-5215-41ce-bd91-62b9ab6827fc" />
 
 States: `PENDING → SEATS_HELD → PAYMENT_PROCESSING → (PAYMENT_UNKNOWN) → CONFIRMING → CONFIRMED`. The terminal failure states are `REJECTED`, `PAYMENT_FAILED`, `EXPIRED`, `CANCELLED` and `FAILED` (refunded). Every transition is a guarded `UPDATE … WHERE status IN (…)`, so Kafka consumers, the pay endpoint, the reconciler and both replicas can race safely. The full timeline of each booking is shown in the UI.
 
