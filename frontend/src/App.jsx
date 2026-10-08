@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
-import { getAuth, setAuth } from './api.js';
-import Login from './pages/Login.jsx';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { getAuth, setAuth } from './api.ts';
+import Header from './components/Header.tsx';
+import Footer from './components/Footer.tsx';
+import Login from './pages/Login.tsx';
 import Search from './pages/Search.jsx';
-import BookingPage from './pages/BookingPage.jsx';
-import MyBookings from './pages/MyBookings.jsx';
-import Notifications from './pages/Notifications.jsx';
-import ControlRoom from './pages/ControlRoom.jsx';
-import PnrStatus from './pages/PnrStatus.jsx';
+import TrainResults from './pages/TrainResults.jsx';
+import BookTrain from './pages/BookTrain.tsx';
+import BookingPage from './pages/BookingPage.tsx';
+import MyBookings from './pages/MyBookings.tsx';
+import Notifications from './pages/Notifications.tsx';
+import ControlRoom from './pages/ControlRoom.tsx';
+import PnrStatus from './pages/PnrStatus.tsx';
 
 export default function App() {
   const [auth, setAuthState] = useState(getAuth());
@@ -25,6 +29,7 @@ export default function App() {
     setAuth(a);
     setAuthState(a);
   };
+
   const logout = () => {
     setAuth(null);
     setAuthState(null);
@@ -34,35 +39,15 @@ export default function App() {
   const requireAuth = (el) => (auth ? el : <Navigate to="/login" replace />);
 
   return (
-    <div className="app">
-      <header className="topbar">
-        <NavLink to="/" className="brand">
-          <span className="brand-mark">🚆</span>
-          <span>
-            Rail<b>Reserve</b>
-          </span>
-        </NavLink>
-        <nav>
-          <NavLink to="/" end>Book</NavLink>
-          <NavLink to="/pnr">PNR status</NavLink>
-          {auth && <NavLink to="/bookings">My trips</NavLink>}
-          {auth && <NavLink to="/notifications">Alerts</NavLink>}
-          <NavLink to="/control-room" className="nav-ops">Control room</NavLink>
-        </nav>
-        <div className="who">
-          {auth ? (
-            <>
-              <span className="muted">Hi, {auth.user.name.split(' ')[0]}</span>
-              <button className="btn ghost sm" onClick={logout}>Log out</button>
-            </>
-          ) : (
-            <NavLink to="/login" className="btn sm">Log in</NavLink>
-          )}
-        </div>
-      </header>
-      <main>
+    <div className="flex flex-col min-h-screen bg-[#eff2f6] text-slate-900 font-sans">
+      {/* Official IRCTC Header (Two-tier with Indian Railways emblem, IRCTC Logo, Clock, Font Resizer, Language & Nav links) */}
+      <Header auth={auth} onLogout={logout} />
+
+      <main className="flex-1">
         <Routes>
           <Route path="/" element={<Search auth={auth} />} />
+          <Route path="/trains" element={<TrainResults auth={auth} />} />
+          <Route path="/book" element={requireAuth(<BookTrain auth={auth} />)} />
           <Route path="/login" element={auth ? <Navigate to="/" replace /> : <Login onLogin={onLogin} />} />
           <Route path="/pnr" element={<PnrStatus auth={auth} />} />
           <Route path="/booking/:id" element={requireAuth(<BookingPage />)} />
@@ -72,9 +57,9 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <footer className="footer muted">
-        Distributed Systems capstone · Spring Boot microservices · Kafka saga · Redis · Postgres per service
-      </footer>
+
+      {/* Official IRCTC Footer */}
+      <Footer />
     </div>
   );
 }

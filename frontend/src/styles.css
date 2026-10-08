@@ -1,266 +1,1227 @@
+
 :root {
-  --bg: #f4f6fa;
-  --card: #ffffff;
-  --ink: #142033;
-  --muted: #5d6b80;
-  --line: #dfe4ec;
-  --brand: #1b3a6b;
-  --brand-ink: #ffffff;
-  --accent: #e8711c;
-  --ok: #1d8a4e;
-  --ok-bg: #e6f5ec;
-  --info: #2563a8;
-  --info-bg: #e7f0fa;
-  --warn: #9a6200;
-  --warn-bg: #fff4dc;
-  --bad: #b42318;
-  --bad-bg: #fdecea;
-  --seat-free: #cfe9d9;
-  --seat-held: #f5b649;
-  --seat-booked: #1b3a6b;
-  --shadow: 0 1px 2px rgba(20, 32, 51, 0.06), 0 4px 16px rgba(20, 32, 51, 0.06);
-  color-scheme: light;
+  --irctc-navy: #1b3a6b;
+  --irctc-dark-navy: #0d244a;
+  --irctc-blue-nav: #214478;
+  --irctc-orange: #e8711c;
+  --irctc-orange-hover: #d06012;
+  --irctc-bg: #eff2f6;
+  --irctc-card: #ffffff;
+  --irctc-ink: #212529;
+  --irctc-muted: #5d6778;
+  --irctc-border: #ced4da;
+  --irctc-light-border: #e2e8f0;
+  --irctc-green: #15803d;
+  --irctc-green-bg: #dcfce7;
+  --irctc-red: #b91c1c;
+  --irctc-red-bg: #fee2e2;
+  --irctc-tab-active: #0d244a;
+  --irctc-tab-inactive: #1b3a6b;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --bg: #0f1520;
-    --card: #182132;
-    --ink: #e6ebf3;
-    --muted: #93a1b5;
-    --line: #2a364a;
-    --brand: #7aa7e8;
-    --brand-ink: #0f1520;
-    --accent: #f08a3c;
-    --ok: #4cc583;
-    --ok-bg: #15301f;
-    --info: #79aef0;
-    --info-bg: #15263d;
-    --warn: #f0b84f;
-    --warn-bg: #33270e;
-    --bad: #f07067;
-    --bad-bg: #3a1714;
-    --seat-free: #24493a;
-    --seat-held: #c98a1d;
-    --seat-booked: #7aa7e8;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    color-scheme: dark;
-  }
+* {
+  box-sizing: border-box;
 }
-
-* { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 15px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  padding: 0;
+  background-color: var(--irctc-bg);
+  color: var(--irctc-ink);
+  font-family: 'Roboto', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--info); }
-code { font-size: 0.9em; }
-h1, h2, h3, h4 { margin: 0.2em 0 0.4em; line-height: 1.25; }
-h4 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); margin-top: 1rem; }
-
-.app { min-height: 100vh; display: flex; flex-direction: column; }
-main { flex: 1; width: 100%; max-width: 1180px; margin: 0 auto; padding: 20px 16px 40px; }
-
-.topbar {
-  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
-  padding: 10px 20px; background: var(--card); border-bottom: 1px solid var(--line);
-  position: sticky; top: 0; z-index: 10;
+a {
+  color: var(--irctc-navy);
+  text-decoration: none;
 }
-.brand { display: flex; align-items: center; gap: 8px; font-size: 1.2rem; text-decoration: none; color: var(--ink); }
-.brand b { color: var(--accent); }
-.brand-mark { font-size: 1.4rem; }
-.topbar nav { display: flex; gap: 4px; flex: 1; flex-wrap: wrap; }
-.topbar nav a { padding: 6px 12px; border-radius: 8px; text-decoration: none; color: var(--muted); font-weight: 500; }
-.topbar nav a.active { background: var(--info-bg); color: var(--info); }
-.topbar nav a.nav-ops { margin-left: auto; }
-.who { display: flex; align-items: center; gap: 10px; }
 
-.footer { text-align: center; padding: 16px; font-size: 0.8rem; border-top: 1px solid var(--line); }
-
-.card {
-  background: var(--card); border: 1px solid var(--line); border-radius: 12px;
-  padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow);
+a:hover {
+  text-decoration: underline;
 }
-.muted { color: var(--muted); }
-.small { font-size: 0.85rem; }
-.tiny { font-size: 0.75rem; color: var(--muted); }
-.danger { color: var(--bad); }
-.narrow { max-width: 640px; }
-.empty { text-align: center; color: var(--muted); }
 
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-  background: var(--brand); color: var(--brand-ink); border: 0; border-radius: 8px;
-  padding: 9px 18px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none;
+/* =====================================================================
+   IRCTC HEADER & NAVIGATION
+   ===================================================================== */
+.irctc-header-container {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
-.btn:hover:not(:disabled) { filter: brightness(1.1); }
-.btn:disabled { opacity: 0.55; cursor: not-allowed; }
-.btn.sm { padding: 5px 12px; font-size: 0.85rem; }
-.btn.block { width: 100%; }
-.btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--line); }
-.btn.ghost.danger { color: var(--bad); border-color: var(--bad); }
-.btn.hot, .btn.pay { background: var(--accent); color: #fff; }
-.link { background: none; border: 0; color: var(--info); cursor: pointer; padding: 4px 0; font: inherit; }
 
-input, select {
-  font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line);
-  border-radius: 8px; padding: 8px 10px; width: 100%;
+/* Top utility bar */
+.irctc-top-strip {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #edf2f7;
 }
-label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; color: var(--muted); font-weight: 500; }
-label.check { flex-direction: row; align-items: center; gap: 8px; }
-label.check input { width: auto; }
 
-.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.row-between { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.row-end { display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-.right { text-align: right; }
-
-.alert { border-radius: 10px; padding: 10px 14px; margin: 12px 0; border: 1px solid transparent; }
-.alert.error { background: var(--bad-bg); color: var(--bad); }
-.alert.ok { background: var(--ok-bg); color: var(--ok); }
-.alert.info { background: var(--info-bg); color: var(--info); }
-.alert.warn { background: var(--warn-bg); color: var(--warn); }
-
-.pill, .tag, .badge { display: inline-block; border-radius: 999px; font-size: 0.72rem; font-weight: 700; padding: 2px 9px; letter-spacing: 0.02em; }
-.pill.ok { background: var(--ok-bg); color: var(--ok); }
-.pill.warn { background: var(--warn-bg); color: var(--warn); }
-.tag { background: var(--info-bg); color: var(--info); margin-left: 6px; vertical-align: middle; }
-.chip { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 4px 12px; cursor: pointer; font: inherit; font-size: 0.85rem; }
-.chip.hot { border-color: var(--accent); color: var(--accent); }
-
-.badge { background: var(--info-bg); color: var(--info); white-space: nowrap; }
-.b-CONFIRMED { background: var(--ok-bg); color: var(--ok); }
-.b-REJECTED, .b-PAYMENT_FAILED, .b-FAILED, .b-EXPIRED { background: var(--bad-bg); color: var(--bad); }
-.b-PAYMENT_UNKNOWN, .b-SEATS_HELD { background: var(--warn-bg); color: var(--warn); }
-.b-CANCELLED { background: var(--line); color: var(--muted); }
-
-/* ---------- search ---------- */
-.hero { margin-bottom: 20px; }
-.hero h1 { font-size: 1.8rem; }
-.hero > p { color: var(--muted); margin-top: 0; }
-.search-bar { display: grid; grid-template-columns: 1fr auto 1fr 170px auto; gap: 12px; align-items: end; }
-.swap { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; margin-bottom: 2px; font-size: 1rem; }
-.quick { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); }
-.result-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.result-head h2 { font-size: 1.15rem; margin: 0; }
-
-.train-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.train-no { font-family: ui-monospace, monospace; color: var(--accent); font-weight: 700; }
-.timing { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; margin: 12px 0; }
-.timing b { font-size: 1.25rem; display: block; }
-.timing span { font-size: 0.82rem; }
-.timing .line { border-top: 2px dashed var(--line); position: relative; text-align: center; }
-.timing .line span { position: relative; top: -0.8em; background: var(--card); padding: 0 8px; color: var(--muted); }
-.classes { display: flex; gap: 10px; flex-wrap: wrap; }
-.class-tile {
-  text-align: left; min-width: 150px; flex: 1; max-width: 220px; cursor: pointer; font: inherit; color: var(--ink);
-  background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+.irctc-emblem-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.class-tile:hover:not(:disabled) { border-color: var(--brand); }
-.class-tile:disabled { cursor: not-allowed; opacity: 0.6; }
-.class-top { display: flex; justify-content: space-between; }
-.class-status { font-weight: 700; margin-top: 4px; }
-.s-AVAILABLE .class-status { color: var(--ok); }
-.s-SOLD_OUT .class-status { color: var(--bad); }
-.s-CHECK_AT_BOOKING .class-status { color: var(--warn); }
 
-/* ---------- modal ---------- */
-.modal-bg { position: fixed; inset: 0; background: rgba(10, 16, 28, 0.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
-.modal { width: 100%; max-width: 640px; max-height: 90vh; overflow: auto; position: relative; }
-.close { position: absolute; top: 8px; right: 12px; background: none; border: 0; font-size: 1.6rem; color: var(--muted); cursor: pointer; }
-table { width: 100%; border-collapse: collapse; }
-th { text-align: left; font-size: 0.75rem; text-transform: uppercase; color: var(--muted); padding: 6px 4px; }
-td { padding: 4px; border-top: 1px solid var(--line); }
-.total { text-align: right; margin-top: 10px; font-size: 1.1rem; }
-
-/* ---------- auth ---------- */
-.auth-wrap { display: flex; justify-content: center; padding-top: 30px; }
-.auth { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 12px; }
-
-/* ---------- booking ---------- */
-.booking-page { display: grid; grid-template-columns: 1.3fr 1fr; gap: 16px; align-items: start; }
-.pnr { font-family: ui-monospace, monospace; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.08em; }
-.stepper { display: flex; list-style: none; padding: 0; margin: 16px 0; counter-reset: step; }
-.stepper li { flex: 1; text-align: center; font-size: 0.8rem; color: var(--muted); position: relative; padding-top: 30px; }
-.stepper li::before {
-  counter-increment: step; content: counter(step); position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 24px; height: 24px; border-radius: 50%; background: var(--line); color: var(--muted); line-height: 24px; font-weight: 700;
+.irctc-emblem-img {
+  width: 44px;
+  height: 44px;
 }
-.stepper li.done::before { content: '✓'; background: var(--ok); color: #fff; }
-.stepper li.active { color: var(--ink); font-weight: 700; }
-.stepper li.active::before { background: var(--accent); color: #fff; }
-.ticket { border: 2px dashed var(--ok); border-radius: 12px; padding: 14px; margin-top: 12px; }
-.ticket-title { color: var(--ok); font-weight: 800; font-size: 1.1rem; margin-bottom: 8px; }
-.timeline { list-style: none; padding: 0; margin: 0 0 12px; }
-.timeline li { display: grid; grid-template-columns: 78px auto 1fr; gap: 10px; align-items: baseline; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 0.86rem; }
-.timeline .t { font-family: ui-monospace, monospace; color: var(--muted); font-size: 0.78rem; }
-.spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: -1px; margin-right: 6px; }
-@keyframes spin { to { transform: rotate(360deg); } }
 
-.list { display: flex; flex-direction: column; gap: 0; }
-.list-item { display: flex; justify-content: space-between; gap: 12px; align-items: center; text-decoration: none; color: var(--ink); margin-bottom: 10px; }
-.list-item:hover { border-color: var(--brand); }
-
-/* ---------- control room ---------- */
-.cr-head h1 { font-size: 1.6rem; }
-.registry { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.svc { border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; background: var(--bg); }
-.svc-name { font-weight: 600; font-size: 0.88rem; }
-.svc-inst { display: flex; align-items: center; gap: 5px; margin-top: 4px; }
-.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-.dot.up { background: var(--ok); }
-.dot.down { background: var(--bad); }
-.sim-controls { display: grid; grid-template-columns: repeat(4, minmax(110px, 1fr)) auto auto; gap: 12px; align-items: end; margin: 8px 0; }
-.toggle { border: 1px solid var(--line); background: var(--bad-bg); color: var(--bad); border-radius: 999px; padding: 2px 12px; font-weight: 700; cursor: pointer; }
-.toggle.on { background: var(--ok-bg); color: var(--ok); }
-.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
-.seg button { border: 0; background: var(--card); color: var(--muted); padding: 3px 12px; font: inherit; font-weight: 700; cursor: pointer; }
-.seg button + button { border-left: 1px solid var(--line); }
-.seg button:disabled { cursor: default; }
-.seg button:not(.active):not(:disabled):hover { background: var(--bg); color: var(--ink); }
-.seg button.active.safe { background: var(--ok-bg); color: var(--ok); }
-.seg button.active.naive { background: var(--bad-bg); color: var(--bad); }
-.sim-body { display: grid; grid-template-columns: 340px 1fr; gap: 20px; margin-top: 10px; }
-.stat { display: flex; justify-content: space-between; gap: 10px; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: 0.88rem; }
-.stat.ok b { color: var(--ok); }
-.stat.info b { color: var(--info); }
-.stat.warn b { color: var(--warn); }
-.stat.bad b { color: var(--bad); }
-.seat-grid { display: grid; grid-template-columns: repeat(auto-fill, 16px); gap: 4px; padding: 10px; background: var(--bg); border-radius: 10px; min-height: 60px; }
-.seat { width: 16px; height: 16px; border-radius: 4px; display: inline-block; background: var(--seat-free); transition: background 0.3s; }
-.seat.HELD { background: var(--seat-held); }
-.seat.BOOKED { background: var(--seat-booked); }
-.legend { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: var(--muted); }
-.legend .seat { width: 12px; height: 12px; margin-left: 8px; }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.chaos { display: flex; flex-direction: column; gap: 10px; }
-.chaos input[type='range'] { padding: 0; accent-color: var(--accent); }
-.breakers { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
-.breaker { border-radius: 10px; padding: 10px 12px; border: 1px solid var(--line); }
-.breaker .b-state { font-weight: 800; font-size: 1.05rem; }
-.breaker.CLOSED { background: var(--ok-bg); }
-.breaker.CLOSED .b-state { color: var(--ok); }
-.breaker.OPEN { background: var(--bad-bg); }
-.breaker.OPEN .b-state { color: var(--bad); }
-.breaker.HALF_OPEN { background: var(--warn-bg); }
-.breaker.HALF_OPEN .b-state { color: var(--warn); }
-.lb { margin-top: 12px; }
-.lb-row { display: grid; grid-template-columns: 170px 1fr 40px; gap: 10px; align-items: center; margin-top: 6px; }
-.bar { background: var(--bg); border-radius: 6px; height: 12px; overflow: hidden; }
-.bar span { display: block; height: 100%; background: var(--brand); }
-
-@media (max-width: 860px) {
-  .search-bar { grid-template-columns: 1fr; }
-  .swap { justify-self: center; transform: rotate(90deg); }
-  .booking-page, .grid-2, .sim-body { grid-template-columns: 1fr; }
-  .sim-controls { grid-template-columns: 1fr 1fr; }
-  .topbar { gap: 8px; padding: 8px 16px; }
-  .topbar .who { margin-left: auto; }
-  .topbar nav { order: 3; flex: 1 1 100%; flex-wrap: nowrap; overflow-x: auto; }
-  .topbar nav a { white-space: nowrap; }
-  .topbar nav a.nav-ops { margin-left: 0; }
+.irctc-top-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #334155;
 }
+
+.irctc-clock {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.irctc-font-resizer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #475569;
+}
+
+.irctc-font-resizer span {
+  cursor: pointer;
+  padding: 2px 4px;
+}
+
+.irctc-font-resizer span:hover {
+  color: var(--irctc-navy);
+  font-weight: 700;
+}
+
+.irctc-lang-toggle {
+  cursor: pointer;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.irctc-logo-right {
+  width: 48px;
+  height: 44px;
+}
+
+/* Main Navigation Bar (Navy Blue #1b3a6b) */
+.irctc-main-nav {
+  background: var(--irctc-navy);
+  color: #ffffff;
+}
+
+.irctc-nav-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+
+.irctc-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.irctc-nav-link {
+  color: #ffffff;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.irctc-nav-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  text-decoration: none;
+}
+
+.irctc-nav-link.active {
+  background: var(--irctc-dark-navy);
+  color: #fbbf24;
+  border-bottom: 3px solid #f59e0b;
+}
+
+.irctc-nav-link.trains-active {
+  color: #ef4444;
+  border-bottom: 2px solid #ef4444;
+}
+
+.irctc-login-btn {
+  background: #0f244a;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.irctc-login-btn:hover {
+  background: #1e3a6c;
+  text-decoration: none;
+}
+
+.irctc-cashback-badge {
+  background: #0f244a;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Beta announcement alert bar */
+.irctc-beta-banner {
+  background: #eef5ff;
+  border-bottom: 1px solid #d6e6fe;
+  padding: 8px 16px;
+}
+
+.irctc-beta-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #1e3a8a;
+  font-weight: 500;
+}
+
+.irctc-beta-tag {
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-right: 8px;
+  letter-spacing: 0.05em;
+}
+
+.irctc-beta-btn {
+  background: #1b3a6b;
+  color: #ffffff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 12px;
+}
+
+.irctc-beta-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #64748b;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* =====================================================================
+   IRCTC HERO SECTION & BOOK TICKET CARD (Screenshot 1)
+   ===================================================================== */
+.irctc-hero-section {
+  position: relative;
+  width: 100%;
+  min-height: 520px;
+  background: linear-gradient(180deg, #d3e7fa 0%, #b8d8f4 40%, #e2edf7 80%, #ffffff 100%);
+  overflow: hidden;
+  padding: 30px 16px 40px;
+}
+
+/* High speed Vande Bharat train backdrop on tracks */
+.irctc-hero-backdrop {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 65%;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.irctc-hero-train-img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: right bottom;
+}
+
+.irctc-hero-title-group {
+  position: absolute;
+  right: 18%;
+  top: 36px;
+  text-align: right;
+  z-index: 2;
+}
+
+.irctc-hero-indian-railways {
+  font-size: 42px;
+  font-weight: 900;
+  color: #1b3a6b;
+  letter-spacing: 0.02em;
+  margin: 0 0 4px 0;
+  line-height: 1;
+}
+
+.irctc-hero-pillars {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1b3a6b;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 0;
+}
+
+.irctc-hero-pillars span {
+  display: inline-flex;
+  align-items: center;
+}
+
+.irctc-hero-pillars span + span::before {
+  content: '|';
+  margin-right: 12px;
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* BOOK TICKET Floating Card on left */
+.irctc-hero-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.irctc-book-card {
+  width: 100%;
+  max-width: 530px;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border: 1px solid #d4dde8;
+  overflow: hidden;
+}
+
+/* Tabs: PNR STATUS | CHARTS / VACANCY */
+.irctc-book-tabs {
+  display: flex;
+  background: var(--irctc-navy);
+}
+
+.irctc-tab-btn {
+  flex: 1;
+  background: var(--irctc-navy);
+  color: #ffffff;
+  border: none;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.irctc-tab-btn:hover {
+  background: #142e58;
+}
+
+.irctc-tab-btn.active {
+  background: #0d244a;
+}
+
+.irctc-book-body {
+  padding: 24px 26px 22px;
+}
+
+.irctc-book-heading {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1b3a6b;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin: 0 0 18px 0;
+  text-align: center;
+}
+
+/* Form fields */
+.irctc-form-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.irctc-input-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.irctc-field-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.irctc-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.irctc-field-icon {
+  position: absolute;
+  left: 10px;
+  color: #475569;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.irctc-input-wrapper select,
+.irctc-input-wrapper input {
+  width: 100%;
+  height: 40px;
+  padding: 8px 10px 8px 34px;
+  border: 1px solid var(--irctc-border);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.irctc-input-wrapper select:focus,
+.irctc-input-wrapper input:focus {
+  border-color: #1b3a6b;
+  box-shadow: 0 0 0 2px rgba(27, 58, 107, 0.15);
+}
+
+.irctc-swap-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #1b3a6b;
+  font-size: 16px;
+  margin-top: 14px;
+  transition: all 0.2s;
+}
+
+.irctc-swap-btn:hover {
+  background: #f1f5f9;
+  transform: scale(1.05);
+}
+
+/* Concession Checkboxes */
+.irctc-checkbox-group {
+  margin: 14px 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.irctc-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #1e293b;
+  cursor: pointer;
+}
+
+.irctc-checkbox-label input {
+  accent-color: var(--irctc-navy);
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+/* Search Trains Primary CTA (Orange #e8711c) */
+.irctc-search-btn {
+  width: 100%;
+  height: 42px;
+  background: var(--irctc-orange);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(232, 113, 28, 0.35);
+}
+
+.irctc-search-btn:hover {
+  background: var(--irctc-orange-hover);
+  box-shadow: 0 4px 10px rgba(232, 113, 28, 0.45);
+}
+
+/* Quick chips */
+.irctc-quick-routes {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.irctc-route-chip {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: #1e293b;
+  font-weight: 500;
+}
+
+.irctc-route-chip:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+/* =====================================================================
+   IRCTC SEARCH RESULTS PAGE (Screenshots 2 & 4)
+   ===================================================================== */
+.irctc-results-container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Top Dark Navy Search Modification Bar */
+.irctc-modify-bar {
+  background: #1b3a6b;
+  border-radius: 4px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.irctc-modify-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.irctc-modify-input {
+  height: 34px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid #cbd5e1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+  background: #ffffff;
+}
+
+.irctc-modify-btn {
+  height: 34px;
+  background: var(--irctc-orange);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  border-radius: 3px;
+  padding: 0 18px;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.irctc-modify-btn:hover {
+  background: var(--irctc-orange-hover);
+}
+
+.irctc-modify-checkboxes {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Results 2-Column Grid */
+.irctc-results-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+/* Left Sidebar Refine Results */
+.irctc-refine-sidebar {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+}
+
+.irctc-refine-header {
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.irctc-refine-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.irctc-remove-filter {
+  font-size: 11px;
+  color: #dc2626;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.irctc-refine-section {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.irctc-refine-section:last-child {
+  border-bottom: none;
+}
+
+.irctc-section-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.irctc-check-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.irctc-check-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #1e293b;
+  cursor: pointer;
+}
+
+/* Departure time 4 buttons */
+.irctc-time-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.irctc-time-btn {
+  background: #1b3a6b;
+  color: #ffffff;
+  border: 1px solid #0f244a;
+  border-radius: 3px;
+  padding: 8px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.irctc-time-btn:hover {
+  opacity: 0.9;
+}
+
+.irctc-time-btn.active {
+  background: #0f244a;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.irctc-time-btn b {
+  display: block;
+  font-size: 11px;
+}
+
+.irctc-time-btn span {
+  display: block;
+  font-size: 9px;
+  opacity: 0.85;
+}
+
+/* Right Main Results */
+.irctc-results-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Result count header strip */
+.irctc-summary-strip {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.irctc-sort-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.irctc-sort-btn {
+  background: #1b3a6b;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.irctc-day-nav-group {
+  display: flex;
+  gap: 6px;
+}
+
+.irctc-day-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 3px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1e293b;
+  cursor: pointer;
+}
+
+.irctc-day-btn:hover:not(:disabled) {
+  background: #f1f5f9;
+}
+
+.irctc-day-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Train Card (matching IRCTC Screenshot 2 & 4) */
+.irctc-train-card {
+  background: #ffffff;
+  border: 1px solid #d0d7e2;
+  border-radius: 4px;
+  box-shadow: var(--shadow-sm);
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.irctc-train-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.irctc-train-name-no {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.irctc-train-runs-on {
+  font-size: 12px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.irctc-schedule-link {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+/* Timing layout */
+.irctc-timing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 16px;
+}
+
+.irctc-time-box b {
+  font-size: 20px;
+  font-weight: 900;
+  color: #0f172a;
+  margin-right: 6px;
+}
+
+.irctc-time-box span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.irctc-duration-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.irctc-duration-line::before,
+.irctc-duration-line::after {
+  content: '';
+  width: 50px;
+  height: 1px;
+  background: #cbd5e1;
+}
+
+/* Class boxes */
+.irctc-classes-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.irctc-class-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 8px 14px;
+  min-width: 140px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.irctc-class-box:hover {
+  background: #ffffff;
+  border-color: #1b3a6b;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.irctc-class-box.selected {
+  border: 2px solid #1b3a6b;
+  background: #eff6ff;
+}
+
+.irctc-class-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.irctc-class-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.irctc-class-status-text {
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.irctc-class-status-text.ok {
+  color: #15803d;
+}
+
+.irctc-class-status-text.sold {
+  color: #b91c1c;
+}
+
+.irctc-class-status-text.check {
+  color: #d97706;
+}
+
+.irctc-fare-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* NTES Notice & Actions */
+.irctc-card-notice {
+  font-size: 11px;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.irctc-card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.irctc-book-now-btn {
+  background: var(--irctc-orange);
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.irctc-book-now-btn:hover {
+  background: var(--irctc-orange-hover);
+}
+
+.irctc-other-dates-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #1e293b;
+  border-radius: 3px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.irctc-other-dates-btn:hover {
+  background: #f1f5f9;
+}
+
+/* =====================================================================
+   IRCTC LOGIN MODAL (Screenshot 3)
+   ===================================================================== */
+.irctc-login-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.irctc-login-modal {
+  width: 100%;
+  max-width: 440px;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.irctc-login-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.irctc-login-header {
+  text-align: center;
+  padding: 24px 20px 10px;
+}
+
+.irctc-login-title {
+  font-size: 22px;
+  font-weight: 900;
+  color: #1b3a6b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  display: inline-block;
+  border-bottom: 3px solid #1b3a6b;
+  padding-bottom: 2px;
+}
+
+.irctc-login-form {
+  padding: 18px 26px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.irctc-floating-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.irctc-floating-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.irctc-floating-field input {
+  height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  font-size: 14px;
+  outline: none;
+}
+
+.irctc-floating-field input:focus {
+  border-color: #1b3a6b;
+}
+
+.irctc-forgot-link {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1b3a6b;
+  text-transform: uppercase;
+  text-align: right;
+  margin-top: -6px;
+}
+
+.irctc-sign-in-btn {
+  height: 40px;
+  background: var(--irctc-orange);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.2s;
+}
+
+.irctc-sign-in-btn:hover {
+  background: var(--irctc-orange-hover);
+}
+
+.irctc-login-secondary-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.irctc-secondary-btn {
+  height: 36px;
+  background: #1b3a6b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.irctc-secondary-btn:hover {
+  background: #0d244a;
+}
+
+/* =====================================================================
+   OFFICIAL IRCTC FOOTER (CLEAN, NO CAPSTONE CONTENT)
+   ===================================================================== */
+.irctc-official-footer {
+  background: #0d244a;
+  color: #ffffff;
+  padding: 30px 16px 20px;
+  margin-top: auto;
+  border-top: 3px solid #1b3a6b;
+  font-size: 12px;
+}
+
+.irctc-footer-inner {
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+.irctc-footer-services-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.irctc-footer-services-row a {
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.irctc-footer-middle {
+  text-align: center;
+  padding: 20px 0 14px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.6;
+}
+
+.irctc-footer-middle p {
+  margin: 4px 0;
+}
+
+.irctc-footer-bottom-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 11px;
+}
+
+.irctc-footer-bottom-links a {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.irctc-footer-bottom-links a:hover {
+  color: #ffffff;
+}
+
+/* Responsive queries */
+@media (max-width: 1024px) {
+  .irctc-results-grid {
+    grid-template-columns: 1fr;
+  }
+  .irctc-hero-backdrop {
+    display: none;
+  }
+  .irctc-hero-title-group {
+    position: static;
+    text-align: left;
+    margin-bottom: 20px;
+  }
+}
+
+/* Control Room Seat Box Matrix */
+.seat-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.seat-box.HELD {
+  background-color: #f59e0b;
+  border-color: #d97706;
+  color: #ffffff;
+}
+
+.seat-box.BOOKED,
+.seat-box.CONFIRMED {
+  background-color: #10b981;
+  border-color: #059669;
+  color: #ffffff;
+}
+

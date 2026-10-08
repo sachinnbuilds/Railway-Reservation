@@ -1,104 +1,474 @@
 {
   "stations": [
-    {"code": "NDLS", "name": "New Delhi", "city": "Delhi"},
-    {"code": "MMCT", "name": "Mumbai Central", "city": "Mumbai"},
-    {"code": "MAS",  "name": "Chennai Central", "city": "Chennai"},
-    {"code": "HWH",  "name": "Howrah Junction", "city": "Kolkata"},
-    {"code": "SBC",  "name": "KSR Bengaluru", "city": "Bengaluru"},
-    {"code": "SC",   "name": "Secunderabad Junction", "city": "Hyderabad"},
-    {"code": "BPL",  "name": "Bhopal Junction", "city": "Bhopal"},
-    {"code": "AGC",  "name": "Agra Cantt", "city": "Agra"},
-    {"code": "JHS",  "name": "VGL Jhansi Junction", "city": "Jhansi"},
-    {"code": "NGP",  "name": "Nagpur Junction", "city": "Nagpur"},
-    {"code": "BZA",  "name": "Vijayawada Junction", "city": "Vijayawada"},
-    {"code": "KOTA", "name": "Kota Junction", "city": "Kota"},
-    {"code": "BRC",  "name": "Vadodara Junction", "city": "Vadodara"},
-    {"code": "CNB",  "name": "Kanpur Central", "city": "Kanpur"},
-    {"code": "PNBE", "name": "Patna Junction", "city": "Patna"}
+    { "code": "NDLS", "name": "New Delhi", "city": "Delhi" },
+    { "code": "MMCT", "name": "Mumbai Central", "city": "Mumbai" },
+    { "code": "MAS", "name": "MGR Chennai Central", "city": "Chennai" },
+    { "code": "HWH", "name": "Howrah Junction", "city": "Kolkata" },
+    { "code": "SBC", "name": "KSR Bengaluru", "city": "Bengaluru" },
+    { "code": "SC", "name": "Secunderabad Junction", "city": "Hyderabad" },
+    { "code": "BPL", "name": "Bhopal Junction", "city": "Bhopal" },
+    { "code": "AGC", "name": "Agra Cantt", "city": "Agra" },
+    { "code": "JHS", "name": "Virangana Lakshmibai Jhansi", "city": "Jhansi" },
+    { "code": "NGP", "name": "Nagpur Junction", "city": "Nagpur" },
+    { "code": "BZA", "name": "Vijayawada Junction", "city": "Vijayawada" },
+    { "code": "KOTA", "name": "Kota Junction", "city": "Kota" },
+    { "code": "BRC", "name": "Vadodara Junction", "city": "Vadodara" },
+    { "code": "CNB", "name": "Kanpur Central", "city": "Kanpur" },
+    { "code": "PNBE", "name": "Patna Junction", "city": "Patna" },
+    { "code": "SA", "name": "Salem Junction", "city": "Salem" },
+    { "code": "CBE", "name": "Coimbatore Junction", "city": "Coimbatore" },
+    { "code": "ED", "name": "Erode Junction", "city": "Erode" },
+    { "code": "TPJ", "name": "Tiruchirappalli Junction", "city": "Tiruchirappalli" },
+    { "code": "MDU", "name": "Madurai Junction", "city": "Madurai" },
+    { "code": "TBM", "name": "Tambaram", "city": "Chennai" },
+    { "code": "MS", "name": "Chennai Egmore", "city": "Chennai" },
+    { "code": "PER", "name": "Perambur", "city": "Chennai" },
+    { "code": "CGL", "name": "Chengalpattu Junction", "city": "Chengalpattu" },
+    { "code": "VM", "name": "Villupuram Junction", "city": "Villupuram" },
+    { "code": "KPD", "name": "Katpadi Junction", "city": "Vellore" },
+    { "code": "JTJ", "name": "Jolarpettai Junction", "city": "Jolarpettai" },
+    { "code": "NCJ", "name": "Nagercoil Junction", "city": "Nagercoil" },
+    { "code": "YRC", "name": "Yercaud Road", "city": "Salem" },
+    { "code": "TVC", "name": "Trivandrum Central", "city": "Thiruvananthapuram" },
+    { "code": "ERS", "name": "Ernakulam Junction", "city": "Kochi" },
+    { "code": "CLT", "name": "Kozhikode", "city": "Kozhikode" },
+    { "code": "PGT", "name": "Palakkad Junction", "city": "Palakkad" },
+    { "code": "ALLP", "name": "Alappuzha", "city": "Alappuzha" },
+    { "code": "MAQ", "name": "Mangaluru Central", "city": "Mangaluru" },
+    { "code": "HYB", "name": "Hyderabad Deccan", "city": "Hyderabad" },
+    { "code": "KCG", "name": "Kacheguda", "city": "Hyderabad" },
+    { "code": "BBQ", "name": "Chennai Beach Junction", "city": "Chennai" },
+    { "code": "GTL", "name": "Guntakal Junction", "city": "Guntakal" },
+    { "code": "TPTY", "name": "Tirupati", "city": "Tirupati" },
+    { "code": "CHZ", "name": "Charlapalli", "city": "Hyderabad" },
+    { "code": "NZM", "name": "Hazrat Nizamuddin", "city": "Delhi" },
+    { "code": "LKO", "name": "Lucknow Charbagh", "city": "Lucknow" },
+    { "code": "GKP", "name": "Gorakhpur Junction", "city": "Gorakhpur" },
+    { "code": "PUNE", "name": "Pune Junction", "city": "Pune" },
+    { "code": "ADI", "name": "Ahmedabad Junction", "city": "Ahmedabad" },
+    { "code": "ST", "name": "Surat", "city": "Surat" },
+    { "code": "JP", "name": "Jaipur Junction", "city": "Jaipur" },
+    { "code": "DHN", "name": "Dhanbad Junction", "city": "Dhanbad" },
+    { "code": "TATA", "name": "Tatanagar Junction", "city": "Jamshedpur" },
+    { "code": "R", "name": "Raipur Junction", "city": "Raipur" },
+    { "code": "GHY", "name": "Guwahati", "city": "Guwahati" }
   ],
   "classes": [
-    {"code": "SL", "name": "Sleeper", "farePerKm": 0.55, "seatsPerCoach": 72, "coachPrefix": "S"},
-    {"code": "3A", "name": "AC 3 Tier", "farePerKm": 1.45, "seatsPerCoach": 64, "coachPrefix": "B"},
-    {"code": "2A", "name": "AC 2 Tier", "farePerKm": 2.10, "seatsPerCoach": 46, "coachPrefix": "A"},
-    {"code": "1A", "name": "AC First Class", "farePerKm": 3.60, "seatsPerCoach": 24, "coachPrefix": "H"},
-    {"code": "CC", "name": "AC Chair Car", "farePerKm": 1.25, "seatsPerCoach": 78, "coachPrefix": "C"},
-    {"code": "EC", "name": "Executive Chair Car", "farePerKm": 2.40, "seatsPerCoach": 56, "coachPrefix": "E"}
+    { "code": "1A", "name": "AC First Class", "farePerKm": 4.0, "seatsPerCoach": 24, "coachPrefix": "H" },
+    { "code": "2A", "name": "AC 2 Tier", "farePerKm": 2.4, "seatsPerCoach": 54, "coachPrefix": "A" },
+    { "code": "3A", "name": "AC 3 Tier", "farePerKm": 1.5, "seatsPerCoach": 64, "coachPrefix": "B" },
+    { "code": "3E", "name": "AC 3 Economy", "farePerKm": 1.25, "seatsPerCoach": 83, "coachPrefix": "M" },
+    { "code": "CC", "name": "AC Chair Car", "farePerKm": 1.3, "seatsPerCoach": 73, "coachPrefix": "C" },
+    { "code": "EC", "name": "Exec. Chair Car", "farePerKm": 2.8, "seatsPerCoach": 56, "coachPrefix": "E" },
+    { "code": "SL", "name": "Sleeper", "farePerKm": 0.5, "seatsPerCoach": 72, "coachPrefix": "S" },
+    { "code": "2S", "name": "Second Sitting", "farePerKm": 0.28, "seatsPerCoach": 100, "coachPrefix": "D" }
   ],
   "trains": [
     {
-      "number": "12951", "name": "Mumbai Rajdhani Express", "type": "RAJDHANI",
-      "coaches": {"3A": 3, "2A": 2, "1A": 1},
+      "number": "22222",
+      "name": "Tatkal SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 4, "2A": 2, "1A": 1 },
       "stops": [
-        {"station": "MMCT", "departure": "17:00", "day": 0, "km": 0},
-        {"station": "BRC",  "arrival": "21:05", "departure": "21:15", "day": 0, "km": 392},
-        {"station": "KOTA", "arrival": "02:35", "departure": "02:45", "day": 1, "km": 919},
-        {"station": "NDLS", "arrival": "08:32", "day": 1, "km": 1384}
+        { "station": "NDLS", "departure": "16:55", "day": 0, "km": 0 },
+        { "station": "KOTA", "arrival": "21:30", "departure": "21:40", "day": 0, "km": 465 },
+        { "station": "BRC", "arrival": "03:10", "departure": "03:20", "day": 1, "km": 992 },
+        { "station": "MMCT", "arrival": "08:25", "day": 1, "km": 1384 }
       ]
     },
     {
-      "number": "12301", "name": "Howrah Rajdhani Express", "type": "RAJDHANI",
-      "coaches": {"3A": 3, "2A": 2, "1A": 1},
+      "number": "12951",
+      "name": "Mumbai Rajdhani",
+      "type": "RAJDHANI",
+      "coaches": { "3A": 5, "2A": 3, "1A": 1 },
       "stops": [
-        {"station": "HWH",  "departure": "16:50", "day": 0, "km": 0},
-        {"station": "PNBE", "arrival": "22:40", "departure": "22:50", "day": 0, "km": 532},
-        {"station": "CNB",  "arrival": "04:45", "departure": "04:50", "day": 1, "km": 1003},
-        {"station": "NDLS", "arrival": "10:00", "day": 1, "km": 1447}
+        { "station": "MMCT", "departure": "17:00", "day": 0, "km": 0 },
+        { "station": "BRC", "arrival": "21:53", "departure": "22:03", "day": 0, "km": 392 },
+        { "station": "KOTA", "arrival": "03:15", "departure": "03:20", "day": 1, "km": 919 },
+        { "station": "NDLS", "arrival": "08:32", "day": 1, "km": 1384 }
       ]
     },
     {
-      "number": "12621", "name": "Tamil Nadu Express", "type": "SUPERFAST",
-      "coaches": {"SL": 4, "3A": 3, "2A": 1},
+      "number": "12952",
+      "name": "New Delhi Rajdhani",
+      "type": "RAJDHANI",
+      "coaches": { "3A": 5, "2A": 3, "1A": 1 },
       "stops": [
-        {"station": "NDLS", "departure": "22:30", "day": 0, "km": 0},
-        {"station": "AGC",  "arrival": "01:20", "departure": "01:25", "day": 1, "km": 195},
-        {"station": "JHS",  "arrival": "03:50", "departure": "03:58", "day": 1, "km": 403},
-        {"station": "BPL",  "arrival": "07:20", "departure": "07:30", "day": 1, "km": 702},
-        {"station": "NGP",  "arrival": "13:00", "departure": "13:05", "day": 1, "km": 1092},
-        {"station": "BZA",  "arrival": "00:40", "departure": "00:50", "day": 2, "km": 1838},
-        {"station": "MAS",  "arrival": "07:10", "day": 2, "km": 2182}
+        { "station": "NDLS", "departure": "16:55", "day": 0, "km": 0 },
+        { "station": "KOTA", "arrival": "21:30", "departure": "21:40", "day": 0, "km": 465 },
+        { "station": "BRC", "arrival": "03:10", "departure": "03:20", "day": 1, "km": 992 },
+        { "station": "MMCT", "arrival": "08:35", "day": 1, "km": 1384 }
       ]
     },
     {
-      "number": "12627", "name": "Karnataka Express", "type": "SUPERFAST",
-      "coaches": {"SL": 4, "3A": 2, "2A": 1},
+      "number": "12002",
+      "name": "Bhopal Shatabdi",
+      "type": "SHATABDI",
+      "coaches": { "CC": 8, "EC": 2 },
       "stops": [
-        {"station": "NDLS", "departure": "20:20", "day": 0, "km": 0},
-        {"station": "AGC",  "arrival": "23:05", "departure": "23:10", "day": 0, "km": 195},
-        {"station": "BPL",  "arrival": "05:15", "departure": "05:25", "day": 1, "km": 702},
-        {"station": "NGP",  "arrival": "11:40", "departure": "11:45", "day": 1, "km": 1092},
-        {"station": "SC",   "arrival": "21:00", "departure": "21:15", "day": 1, "km": 1661},
-        {"station": "SBC",  "arrival": "08:40", "day": 2, "km": 2283}
+        { "station": "NDLS", "departure": "06:00", "day": 0, "km": 0 },
+        { "station": "AGC", "arrival": "07:50", "departure": "07:55", "day": 0, "km": 195 },
+        { "station": "JHS", "arrival": "10:45", "departure": "10:50", "day": 0, "km": 410 },
+        { "station": "BPL", "arrival": "14:40", "day": 0, "km": 707 }
       ]
     },
     {
-      "number": "12723", "name": "Telangana Express", "type": "SUPERFAST",
-      "coaches": {"SL": 3, "3A": 2, "2A": 1},
+      "number": "12622",
+      "name": "Tamil Nadu Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 6, "3A": 4, "2A": 2, "1A": 1 },
       "stops": [
-        {"station": "NDLS", "departure": "16:00", "day": 0, "km": 0},
-        {"station": "AGC",  "arrival": "18:45", "departure": "18:50", "day": 0, "km": 195},
-        {"station": "JHS",  "arrival": "21:10", "departure": "21:18", "day": 0, "km": 403},
-        {"station": "BPL",  "arrival": "00:45", "departure": "00:55", "day": 1, "km": 702},
-        {"station": "NGP",  "arrival": "06:50", "departure": "06:55", "day": 1, "km": 1092},
-        {"station": "SC",   "arrival": "15:35", "day": 1, "km": 1661}
+        { "station": "NDLS", "departure": "21:05", "day": 0, "km": 0 },
+        { "station": "AGC", "arrival": "23:28", "departure": "23:30", "day": 0, "km": 195 },
+        { "station": "JHS", "arrival": "02:35", "departure": "02:43", "day": 1, "km": 410 },
+        { "station": "BPL", "arrival": "06:45", "departure": "06:50", "day": 1, "km": 707 },
+        { "station": "NGP", "arrival": "13:05", "departure": "13:10", "day": 1, "km": 1097 },
+        { "station": "BZA", "arrival": "23:15", "departure": "23:25", "day": 1, "km": 1759 },
+        { "station": "MAS", "arrival": "06:35", "day": 2, "km": 2182 }
       ]
     },
     {
-      "number": "12002", "name": "Bhopal Shatabdi Express", "type": "SHATABDI",
-      "coaches": {"CC": 4, "EC": 1},
+      "number": "12302",
+      "name": "Howrah Rajdhani",
+      "type": "RAJDHANI",
+      "coaches": { "3A": 5, "2A": 3, "1A": 1 },
       "stops": [
-        {"station": "NDLS", "departure": "06:00", "day": 0, "km": 0},
-        {"station": "AGC",  "arrival": "07:50", "departure": "07:55", "day": 0, "km": 195},
-        {"station": "JHS",  "arrival": "10:20", "departure": "10:25", "day": 0, "km": 403},
-        {"station": "BPL",  "arrival": "14:40", "day": 0, "km": 702}
+        { "station": "NDLS", "departure": "16:50", "day": 0, "km": 0 },
+        { "station": "CNB", "arrival": "21:32", "departure": "21:37", "day": 0, "km": 440 },
+        { "station": "PNBE", "arrival": "04:40", "departure": "04:50", "day": 1, "km": 998 },
+        { "station": "HWH", "arrival": "09:55", "day": 1, "km": 1451 }
       ]
     },
     {
-      "number": "22222", "name": "Tatkal Rush Demo Express", "type": "DEMO",
-      "coaches": {"SL": 1, "3A": 1},
+      "number": "12724",
+      "name": "Telangana Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 6, "3A": 4, "2A": 2, "1A": 1 },
       "stops": [
-        {"station": "NDLS", "departure": "10:00", "day": 0, "km": 0},
-        {"station": "KOTA", "arrival": "15:30", "departure": "15:40", "day": 0, "km": 465},
-        {"station": "MMCT", "arrival": "06:00", "day": 1, "km": 1384}
+        { "station": "NDLS", "departure": "16:00", "day": 0, "km": 0 },
+        { "station": "AGC", "arrival": "18:05", "departure": "18:07", "day": 0, "km": 195 },
+        { "station": "JHS", "arrival": "21:20", "departure": "21:28", "day": 0, "km": 410 },
+        { "station": "BPL", "arrival": "01:20", "departure": "01:30", "day": 1, "km": 707 },
+        { "station": "NGP", "arrival": "07:10", "departure": "07:15", "day": 1, "km": 1097 },
+        { "station": "SC", "arrival": "17:10", "day": 1, "km": 1670 }
+      ]
+    },
+    {
+      "number": "12675",
+      "name": "Kovai SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "2S": 8, "CC": 4 },
+      "stops": [
+        { "station": "MAS", "departure": "06:10", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "08:55", "departure": "08:57", "day": 0, "km": 211 },
+        { "station": "JTJ", "arrival": "09:50", "departure": "09:52", "day": 0, "km": 264 },
+        { "station": "SA", "arrival": "11:02", "departure": "11:10", "day": 0, "km": 336 },
+        { "station": "ED", "arrival": "12:00", "departure": "12:05", "day": 0, "km": 399 },
+        { "station": "CBE", "arrival": "13:30", "day": 0, "km": 497 }
+      ]
+    },
+    {
+      "number": "12243",
+      "name": "MAS CBE Shatabdi Express",
+      "type": "SHATABDI",
+      "coaches": { "CC": 5, "EC": 2 },
+      "stops": [
+        { "station": "MAS", "departure": "07:15", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "10:00", "departure": "10:02", "day": 0, "km": 211 },
+        { "station": "SA", "arrival": "11:17", "departure": "11:20", "day": 0, "km": 336 },
+        { "station": "ED", "arrival": "12:15", "departure": "12:17", "day": 0, "km": 399 },
+        { "station": "CBE", "arrival": "13:40", "day": 0, "km": 497 }
+      ]
+    },
+    {
+      "number": "20643",
+      "name": "CBE Vande Bharat Express",
+      "type": "VANDE_BHARAT",
+      "coaches": { "CC": 8, "EC": 4 },
+      "stops": [
+        { "station": "MAS", "departure": "14:15", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "16:50", "departure": "16:52", "day": 0, "km": 211 },
+        { "station": "SA", "arrival": "17:43", "departure": "17:45", "day": 0, "km": 336 },
+        { "station": "ED", "arrival": "18:40", "departure": "18:42", "day": 0, "km": 399 },
+        { "station": "CBE", "arrival": "19:55", "day": 0, "km": 497 }
+      ]
+    },
+    {
+      "number": "22637",
+      "name": "West Coast SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "13:25", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "18:35", "departure": "18:45", "day": 0, "km": 336 },
+        { "station": "CBE", "arrival": "20:15", "departure": "20:25", "day": 0, "km": 497 },
+        { "station": "PGT", "arrival": "21:00", "departure": "21:10", "day": 0, "km": 538 },
+        { "station": "CLT", "arrival": "22:45", "departure": "22:55", "day": 0, "km": 627 },
+        { "station": "MAQ", "arrival": "01:30", "day": 1, "km": 749 }
+      ]
+    },
+    {
+      "number": "12679",
+      "name": "CBE SF Intercity Express",
+      "type": "SUPERFAST",
+      "coaches": { "2S": 6, "CC": 5 },
+      "stops": [
+        { "station": "MAS", "departure": "14:30", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "17:15", "departure": "17:17", "day": 0, "km": 211 },
+        { "station": "SA", "arrival": "19:12", "departure": "19:15", "day": 0, "km": 336 },
+        { "station": "ED", "arrival": "20:10", "departure": "20:12", "day": 0, "km": 399 },
+        { "station": "CBE", "arrival": "21:30", "day": 0, "km": 497 }
+      ]
+    },
+    {
+      "number": "12695",
+      "name": "MAS TVC SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 1, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "15:20", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "19:57", "departure": "20:05", "day": 0, "km": 336 },
+        { "station": "CBE", "arrival": "21:45", "departure": "21:55", "day": 0, "km": 497 },
+        { "station": "PGT", "arrival": "22:30", "departure": "22:40", "day": 0, "km": 538 },
+        { "station": "ERS", "arrival": "02:05", "departure": "02:15", "day": 1, "km": 697 },
+        { "station": "TVC", "arrival": "06:15", "day": 1, "km": 867 }
+      ]
+    },
+    {
+      "number": "12685",
+      "name": "MAS MAQ SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3E": 2, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "16:20", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "21:05", "departure": "21:15", "day": 0, "km": 336 },
+        { "station": "CBE", "arrival": "22:55", "departure": "23:05", "day": 0, "km": 497 },
+        { "station": "CLT", "arrival": "01:30", "departure": "01:40", "day": 1, "km": 627 },
+        { "station": "MAQ", "arrival": "04:10", "day": 1, "km": 749 }
+      ]
+    },
+    {
+      "number": "12623",
+      "name": "MAS TVC SF Mail",
+      "type": "MAIL",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "19:30", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "23:52", "departure": "00:00", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "01:50", "departure": "02:00", "day": 1, "km": 497 },
+        { "station": "ERS", "arrival": "07:30", "departure": "07:40", "day": 1, "km": 697 },
+        { "station": "TVC", "arrival": "11:30", "day": 1, "km": 867 }
+      ]
+    },
+    {
+      "number": "12601",
+      "name": "MAS MAQ SF Mail",
+      "type": "MAIL",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "20:10", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "00:52", "departure": "01:00", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "03:00", "departure": "03:10", "day": 1, "km": 497 },
+        { "station": "CLT", "arrival": "05:30", "departure": "05:40", "day": 1, "km": 627 },
+        { "station": "MAQ", "arrival": "07:50", "day": 1, "km": 749 }
+      ]
+    },
+    {
+      "number": "22639",
+      "name": "Alleppey SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "20:55", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "01:22", "departure": "01:30", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "03:30", "departure": "03:40", "day": 1, "km": 497 },
+        { "station": "ERS", "arrival": "08:00", "departure": "08:10", "day": 1, "km": 697 },
+        { "station": "ALLP", "arrival": "10:30", "day": 1, "km": 757 }
+      ]
+    },
+    {
+      "number": "12671",
+      "name": "Nilagiri SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3E": 2, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "21:05", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "01:47", "departure": "01:55", "day": 1, "km": 336 },
+        { "station": "ED", "arrival": "02:55", "departure": "03:05", "day": 1, "km": 399 },
+        { "station": "CBE", "arrival": "03:55", "departure": "04:05", "day": 1, "km": 497 }
+      ]
+    },
+    {
+      "number": "22651",
+      "name": "MAS PGT Express",
+      "type": "EXPRESS",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "21:30", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "02:35", "departure": "02:45", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "04:40", "departure": "04:50", "day": 1, "km": 497 },
+        { "station": "PGT", "arrival": "05:30", "day": 1, "km": 538 }
+      ]
+    },
+    {
+      "number": "12673",
+      "name": "Cheran SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "22:00", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "00:35", "departure": "00:37", "day": 1, "km": 211 },
+        { "station": "SA", "arrival": "02:42", "departure": "02:50", "day": 1, "km": 336 },
+        { "station": "ED", "arrival": "03:45", "departure": "03:50", "day": 1, "km": 399 },
+        { "station": "CBE", "arrival": "04:55", "day": 1, "km": 497 }
+      ]
+    },
+    {
+      "number": "20601",
+      "name": "MAS BDNK SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "22:30", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "02:55", "departure": "03:05", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "05:00", "departure": "05:10", "day": 1, "km": 497 }
+      ]
+    },
+    {
+      "number": "22649",
+      "name": "Yercaud SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "23:00", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "01:40", "departure": "01:42", "day": 1, "km": 211 },
+        { "station": "SA", "arrival": "04:12", "day": 1, "km": 336 }
+      ]
+    },
+    {
+      "number": "12511",
+      "name": "Rapti Sagar Express",
+      "type": "EXPRESS",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "23:10", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "03:47", "departure": "03:55", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "06:00", "departure": "06:10", "day": 1, "km": 497 },
+        { "station": "NGP", "arrival": "07:30", "departure": "07:40", "day": 2, "km": 1540 },
+        { "station": "LKO", "arrival": "01:00", "departure": "01:10", "day": 3, "km": 2120 },
+        { "station": "GKP", "arrival": "06:30", "day": 3, "km": 2390 }
+      ]
+    },
+    {
+      "number": "13351",
+      "name": "DHN Alappuzha Express",
+      "type": "EXPRESS",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "23:45", "day": 0, "km": 0 },
+        { "station": "SA", "arrival": "04:52", "departure": "05:00", "day": 1, "km": 336 },
+        { "station": "CBE", "arrival": "07:10", "departure": "07:20", "day": 1, "km": 497 },
+        { "station": "ERS", "arrival": "12:00", "departure": "12:10", "day": 1, "km": 697 },
+        { "station": "ALLP", "arrival": "14:30", "day": 1, "km": 757 }
+      ]
+    },
+    {
+      "number": "22153",
+      "name": "MS Salem SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2 },
+      "stops": [
+        { "station": "MS", "departure": "23:55", "day": 0, "km": 0 },
+        { "station": "VM", "arrival": "01:30", "departure": "01:35", "day": 1, "km": 162 },
+        { "station": "SA", "arrival": "06:15", "day": 1, "km": 320 }
+      ]
+    },
+    {
+      "number": "18189",
+      "name": "TATA ERS Express",
+      "type": "EXPRESS",
+      "coaches": { "SL": 5, "3E": 2, "3A": 3, "2A": 2 },
+      "stops": [
+        { "station": "TATA", "departure": "11:00", "day": 0, "km": 0 },
+        { "station": "PER", "arrival": "12:25", "departure": "12:40", "day": 1, "km": 1800 },
+        { "station": "SA", "arrival": "18:17", "departure": "18:25", "day": 1, "km": 2136 },
+        { "station": "CBE", "arrival": "20:30", "departure": "20:40", "day": 1, "km": 2297 },
+        { "station": "ERS", "arrival": "01:00", "day": 2, "km": 2497 }
+      ]
+    },
+    {
+      "number": "17651",
+      "name": "CGL KCG Express",
+      "type": "EXPRESS",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2 },
+      "stops": [
+        { "station": "CGL", "departure": "16:05", "day": 0, "km": 0 },
+        { "station": "TBM", "arrival": "16:30", "departure": "16:35", "day": 0, "km": 24 },
+        { "station": "CBE", "arrival": "21:00", "departure": "21:10", "day": 0, "km": 459 },
+        { "station": "SC", "arrival": "05:00", "departure": "05:15", "day": 1, "km": 1100 },
+        { "station": "KCG", "arrival": "07:55", "day": 1, "km": 1150 }
+      ]
+    },
+    {
+      "number": "12603",
+      "name": "MAS CHZ SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 5, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "16:45", "day": 0, "km": 0 },
+        { "station": "SC", "arrival": "04:00", "departure": "04:15", "day": 1, "km": 784 },
+        { "station": "CHZ", "arrival": "05:10", "day": 1, "km": 810 }
+      ]
+    },
+    {
+      "number": "12759",
+      "name": "Charminar SF Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "BBQ", "departure": "18:20", "day": 0, "km": 0 },
+        { "station": "MAS", "arrival": "18:45", "departure": "19:00", "day": 0, "km": 5 },
+        { "station": "KPD", "arrival": "21:45", "departure": "21:50", "day": 0, "km": 216 },
+        { "station": "SC", "arrival": "05:30", "departure": "05:45", "day": 1, "km": 789 },
+        { "station": "HYB", "arrival": "08:10", "day": 1, "km": 820 }
+      ]
+    },
+    {
+      "number": "12657",
+      "name": "Chennai Mail",
+      "type": "MAIL",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "SBC", "departure": "22:30", "day": 0, "km": 0 },
+        { "station": "KPD", "arrival": "01:45", "departure": "01:50", "day": 1, "km": 217 },
+        { "station": "MAS", "arrival": "05:45", "day": 1, "km": 362 }
+      ]
+    },
+    {
+      "number": "12431",
+      "name": "NZM TVC Rajdhani",
+      "type": "RAJDHANI",
+      "coaches": { "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "NZM", "departure": "11:00", "day": 0, "km": 0 },
+        { "station": "BPL", "arrival": "19:30", "departure": "19:45", "day": 0, "km": 702 },
+        { "station": "NGP", "arrival": "01:15", "departure": "01:30", "day": 1, "km": 1092 },
+        { "station": "SC", "arrival": "10:50", "departure": "11:10", "day": 1, "km": 1661 },
+        { "station": "ERS", "arrival": "05:30", "departure": "05:45", "day": 2, "km": 2461 },
+        { "station": "TVC", "arrival": "10:15", "day": 2, "km": 2631 }
+      ]
+    },
+    {
+      "number": "12163",
+      "name": "MAS Dadar Express",
+      "type": "SUPERFAST",
+      "coaches": { "SL": 6, "3A": 3, "2A": 2, "1A": 1 },
+      "stops": [
+        { "station": "MAS", "departure": "06:50", "day": 0, "km": 0 },
+        { "station": "CBE", "arrival": "12:10", "departure": "12:20", "day": 0, "km": 497 },
+        { "station": "MAQ", "arrival": "18:30", "departure": "18:45", "day": 0, "km": 749 },
+        { "station": "PUNE", "arrival": "09:15", "departure": "09:30", "day": 1, "km": 1650 },
+        { "station": "MMCT", "arrival": "13:20", "day": 1, "km": 1850 }
       ]
     }
   ]
